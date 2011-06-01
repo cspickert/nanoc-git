@@ -1,0 +1,2 @@
+module NanocGit
+end
