@@ -1,4 +1,4 @@
-## What is `nanoc-git`?
+## What is this?
 
 `nanoc-git` makes deploying your [Nanoc3](http://github.com/ddfreyne/nanoc) site via git as easy as typing:
 
