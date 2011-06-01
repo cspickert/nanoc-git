@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-require 'nanoc-git'
 require 'rake'
 
 module NanocGit::Tasks
