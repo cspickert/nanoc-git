@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name        = 'nanoc-git'
-  s.version     = '0.0.4'
+  s.version     = '0.0.5'
   s.authors     = ["Cameron Spickert"]
   s.email       = ["cspicker@gmail.com"]
   s.homepage    = "https://github.com/cspicker/nanoc-git"
