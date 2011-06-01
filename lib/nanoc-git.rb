@@ -3,6 +3,6 @@
 # Load requirements
 require 'nanoc3'
 
-# Load nanoc-deploy
+# Load nanoc-git
 require 'nanoc-git/base'
 require 'nanoc-git/extra'
