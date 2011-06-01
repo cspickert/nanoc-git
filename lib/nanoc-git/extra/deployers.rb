@@ -2,7 +2,7 @@
 
 require 'nanoc-git'
 
-module Nanoc3::Extra
+module NanocGit::Extra
   module Deployers
     autoload 'Git', 'nanoc-git/extra/deployers/git'
   end
