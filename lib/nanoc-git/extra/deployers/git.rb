@@ -40,6 +40,52 @@ module NanocGit::Extra::Deployers
     #
     # @return [void]
     def run(params={})
+      source_branch, dest_branch, remote = get_config(params)
+
+      git = ::Git::Base.open('.')
+
+      # Check out the source branch
+      puts "Checking out #{source_branch}."
+      git.checkout(source_branch)
+
+      # Clean the output dir
+      Nanoc3::Tasks::Clean.new(@site).run
+
+      # Compile the site
+      puts "Compiling site."
+      @site.load_data
+      @site.compiler.run
+
+      # Check out the destination branch
+      puts "Checking out destination branch."
+      git.checkout(dest_branch)
+
+      # Copy output files recursively into the current directory
+      puts "Copying files."
+      FileUtils.cp_r(@site.config[:output_dir].chomp('/') + '/.', '.')
+
+      # Automatically add and commit changes
+      puts "Committing changes."
+      git.add
+      git.commit("updated #{Time.now.to_s}", :add_all => true)
+
+      # Push changes to the destination repo/branch
+      puts "Pushing to #{remote} #{dest_branch}."
+      git.push(remote, dest_branch)
+
+      # Switch back to the source branch
+      puts "Checking out #{src_branch}."
+      git.checkout(source_branch)
+    end
+    
+  private
+
+    # Prints the given message on stderr and exits.
+    def error(msg)
+      raise RuntimeError.new(msg)
+    end
+
+    def get_config(params)
       config_name = params.has_key?(:config_name) ? params[:config_name].to_sym : :default
 
       # Validate config
@@ -53,48 +99,8 @@ module NanocGit::Extra::Deployers
       error 'No source branch found in deployment configuration' if src_branch.nil?
       error 'No destination branch found in deployment configuration' if dst_branch.nil?
       error 'No destination remote found in deployment configuration' if dst_remote.nil?
-    
-      git = ::Git::Base.open('.')
       
-      # Compile the site from scratch
-      Nanoc3::Tasks::Clean.new(@site).run
-      
-      # Check out the source branch
-      puts "Checking out #{src_branch}."
-      git.checkout(src_branch)
-      
-      # Compile the site from scratch
-      puts "Compiling site."
-      @site.load_data
-      @site.compiler.run
-      
-      # Check out the destination branch
-      puts "Checking out destination branch."
-      git.checkout(dst_branch)
-      
-      # Copy output files recursively into the current directory
-      puts "Copying files."
-      FileUtils.cp_r(@site.config[:output_dir].chomp('/') + '/.', '.')
-      
-      # Automatically add and commit changes
-      puts "Committing changes."
-      git.add
-      git.commit("updated #{Time.now.to_s}", :add_all => true)
-      
-      # Push changes to the destination repo/branch
-      puts "Pushing to #{dst_remote} #{dst_branch}."
-      git.push(dst_remote, dst_branch)
-      
-      # Switch back to the source branch
-      puts "Checking out #{src_branch}."
-      git.checkout(src_branch)
-    end
-    
-  private
-
-    # Prints the given message on stderr and exits.
-    def error(msg)
-      raise RuntimeError.new(msg)
+      src_branch, dst_branch, dst_remote
     end
 
   end
