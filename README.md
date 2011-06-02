@@ -28,7 +28,7 @@ If you're developing a static [GitHub Pages](http://pages.github.com/) site but 
 
 ## Does it work?
 
-It works for me, but I can't make any guarantees for other users. It shouldn't do any damage (you can always revert to an earlier commit), but use it at your own risk.
+**Consider this project alpha quality**. It works for me, but I can't make any guarantees for other users. It shouldn't do any damage (you can always revert to an earlier commit), but use it at your own risk.
 
 ## License
 
