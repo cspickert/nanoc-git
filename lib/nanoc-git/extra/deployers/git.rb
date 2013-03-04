@@ -1,4 +1,5 @@
 require 'git'
+require 'nanoc/tasks'
 
 module NanocGit::Extra::Deployers
   
@@ -57,7 +58,7 @@ module NanocGit::Extra::Deployers
       git = ::Git::Base.open('.')
       
       # Compile the site from scratch
-      Nanoc3::Tasks::Clean.new(@site).run
+      Nanoc::Tasks::Clean.new(@site).run
       
       # Check out the source branch
       puts "Checking out #{src_branch}."
@@ -65,7 +66,6 @@ module NanocGit::Extra::Deployers
       
       # Compile the site from scratch
       puts "Compiling site."
-      @site.load_data
       @site.compiler.run
       
       # Check out the destination branch
