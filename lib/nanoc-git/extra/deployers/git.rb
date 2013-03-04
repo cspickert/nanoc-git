@@ -29,7 +29,7 @@ module NanocGit::Extra::Deployers
     # `SRC_BRANCH` is the branch that contains the source files for your site.
     #
     def initialize
-      error 'No site configuration found' unless File.file?('config.yaml')
+      error 'No site configuration found' unless File.file?('nanoc.yaml')
       @site = Nanoc3::Site.new('.')
     end
     
