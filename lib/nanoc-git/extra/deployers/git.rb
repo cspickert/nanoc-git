@@ -1,4 +1,5 @@
 require 'git'
+require 'nanoc/tasks'
 
 module NanocGit::Extra::Deployers
   
@@ -29,7 +30,7 @@ module NanocGit::Extra::Deployers
     # `SRC_BRANCH` is the branch that contains the source files for your site.
     #
     def initialize
-      error 'No site configuration found' unless File.file?('config.yaml')
+      error 'No site configuration found' unless File.file?('nanoc.yaml')
       @site = Nanoc3::Site.new('.')
     end
     
@@ -57,7 +58,7 @@ module NanocGit::Extra::Deployers
       git = ::Git::Base.open('.')
       
       # Compile the site from scratch
-      Nanoc3::Tasks::Clean.new(@site).run
+      Nanoc::Tasks::Clean.new(@site).run
       
       # Check out the source branch
       puts "Checking out #{src_branch}."
@@ -65,7 +66,6 @@ module NanocGit::Extra::Deployers
       
       # Compile the site from scratch
       puts "Compiling site."
-      @site.load_data
       @site.compiler.run
       
       # Check out the destination branch
