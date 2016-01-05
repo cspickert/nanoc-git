@@ -1,3 +1,7 @@
+**This project is no longer maintained. Check out the official version at https://github.com/nanoc/nanoc-git.**
+
+---
+
 ## What is this?
 
 `nanoc-git` makes deploying your [Nanoc3](http://github.com/ddfreyne/nanoc) site via git as easy as typing:
